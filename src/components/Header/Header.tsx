@@ -1,6 +1,6 @@
 import React from 'react';
 import { Todo } from '../../types/Todo';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 type Props = {
   todos: Todo[];
@@ -13,7 +13,7 @@ export const Header: React.FC<Props> = ({ todos }) => {
     <header className="todoapp__header">
       <button
         type="button"
-        className={classNames('todoapp__toggle-all', {
+        className={cn('todoapp__toggle-all', {
           active: areAllTodosCompleted,
           hidden: todos.length === 0,
         })}

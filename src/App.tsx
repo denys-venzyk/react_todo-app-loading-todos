@@ -9,17 +9,20 @@ import { TodoList } from './components/TodoList/TodoList';
 import { ErrorNotification } from './components/ErrorNotification/Index';
 import { Footer } from './components/Footer/Footer';
 import { Header } from './components/Header/Header';
+import { ErrorMessage } from './types/ErrorMessage';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [status, setStatus] = useState<Status>(Status.All);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState<ErrorMessage>(
+    ErrorMessage.noError,
+  );
 
   useEffect(() => {
-    setErrorMessage('');
+    setErrorMessage(ErrorMessage.noError);
     getTodos()
       .then(setTodos)
-      .catch(() => setErrorMessage('Unable to load todos'));
+      .catch(() => setErrorMessage(ErrorMessage.unableToLoad));
   }, []);
 
   function getVisibleTodos(): Todo[] {

@@ -1,9 +1,10 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import React, { useEffect } from 'react';
+import { ErrorMessage } from '../../types/ErrorMessage';
 
 type Props = {
   errorMessage: string;
-  onErrorMessageChange: (errorMessage: string) => void;
+  onErrorMessageChange: (errorMessage: ErrorMessage) => void;
 };
 
 export const ErrorNotification: React.FC<Props> = ({
@@ -15,7 +16,10 @@ export const ErrorNotification: React.FC<Props> = ({
       return;
     }
 
-    const timerId = setTimeout(() => onErrorMessageChange(''), 3000);
+    const timerId = setTimeout(
+      () => onErrorMessageChange(ErrorMessage.noError),
+      3000,
+    );
 
     return () => clearTimeout(timerId);
   }, [errorMessage, onErrorMessageChange]);
@@ -23,18 +27,15 @@ export const ErrorNotification: React.FC<Props> = ({
   return (
     <div
       data-cy="ErrorNotification"
-      className={classNames(
-        'notification is-danger is-light has-text-weight-normal',
-        {
-          hidden: !errorMessage,
-        },
-      )}
+      className={cn('notification is-danger is-light has-text-weight-normal', {
+        hidden: !errorMessage,
+      })}
     >
       <button
         data-cy="HideErrorButton"
         type="button"
         className="delete"
-        onClick={() => onErrorMessageChange('')}
+        onClick={() => onErrorMessageChange(ErrorMessage.noError)}
       />
       {errorMessage}
     </div>

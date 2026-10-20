@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { Todo } from '../../types/Todo';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 type Props = {
   todos: Todo[];
@@ -14,7 +14,7 @@ export const TodoList: React.FC<Props> = ({ todos }) => {
       {todos.map(todo => (
         <div
           data-cy="Todo"
-          className={classNames('todo', { completed: todo.completed })}
+          className={cn('todo', { completed: todo.completed })}
           key={todo.id}
         >
           <label

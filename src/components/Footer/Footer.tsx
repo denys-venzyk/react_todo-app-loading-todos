@@ -1,13 +1,19 @@
 import React from 'react';
 import { Status } from '../../types/Status';
 import { Todo } from '../../types/Todo';
-import classNames from 'classnames';
+import cn from 'classnames';
 
 type Props = {
   todos: Todo[];
   status: Status;
   onStatusChange: (status: Status) => void;
 };
+
+const FILTER_LINKS = [
+  { status: Status.All, title: 'All', href: '#/' },
+  { status: Status.Active, title: 'Active', href: '#/active' },
+  { status: Status.Completed, title: 'Completed', href: '#/completed' },
+];
 
 export const Footer: React.FC<Props> = ({ todos, status, onStatusChange }) => {
   const activeTodos = todos.filter(todo => !todo.completed);
@@ -19,38 +25,19 @@ export const Footer: React.FC<Props> = ({ todos, status, onStatusChange }) => {
       </span>
 
       <nav className="filter" data-cy="Filter">
-        <a
-          href="#/"
-          className={classNames('filter__link', {
-            selected: status === Status.All,
-          })}
-          data-cy="FilterLinkAll"
-          onClick={() => onStatusChange(Status.All)}
-        >
-          All
-        </a>
-
-        <a
-          href="#/active"
-          className={classNames('filter__link', {
-            selected: status === Status.Active,
-          })}
-          data-cy="FilterLinkActive"
-          onClick={() => onStatusChange(Status.Active)}
-        >
-          Active
-        </a>
-
-        <a
-          href="#/completed"
-          className={classNames('filter__link', {
-            selected: status === Status.Completed,
-          })}
-          data-cy="FilterLinkCompleted"
-          onClick={() => onStatusChange(Status.Completed)}
-        >
-          Completed
-        </a>
+        {FILTER_LINKS.map(({ status: linkStatus, title, href }) => (
+          <a
+            key={linkStatus}
+            href={href}
+            className={cn('filter__link', {
+              selected: status === linkStatus,
+            })}
+            data-cy={`FilterLink${title}`}
+            onClick={() => onStatusChange(linkStatus)}
+          >
+            {title}
+          </a>
+        ))}
       </nav>
 
       <button
